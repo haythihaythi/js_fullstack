@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Tech Blog</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <link href="../css/style.css" rel="stylesheet" />
+    <!-- if connect chin tae 2 file ka 2 separate foler htae yout ny yin
+     ../ ta khu pl so ./    -->
+  </head>
+  <body>
+    <header class="main-header">
+      <div class="container"  >
+        <a href="#" id="logo" class="text-[var(--primary-color)]">TechInsights</a>
+
+        <!--css var ko tailwind mr yayy nee  -->
+
+        <nav class="main-nav" id="main-nav">
+          <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+              <li class="dropdown">
+              <a href="#" id="dropdown-toggle">Categories</a>
+              <div class="dropdown-content" id="dropdown-content" >
+                <a href="#">JavaScript</a><a href="#">CSS</a
+                ><a href="#">Web Design</a><a href="#">Tutorials</a>
+              </div>
+            </li>
+
+            <li><a href="#">Categories</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </nav>
+
+        <!-- burger menu -->
+         <button class="burger-menu" id="burger-menu">
+          <div class="line"></div>
+          <div class="line"></div>
+          <div class="line"></div>
+        </button>
+
+
+      </div>
+    </header>
+
+
+    <!-- main -->
+    <main>
+      <section class="blog-section">
+        <div class="container">
+          <h1 class="section-title">Latest Articles</h1>
+          
+          
+          <!-- ****grid template*** -->
+          <div class="grid gap-8 grid-cols-[repeat(auto-fit,minmax(300px,1fr))]">
+            <article class="blog-card" >
+              <img src="../images/naruto.jpg" alt="Blog Image" />
+              
+              <div class="blog-card-content">
+                <h2>Mastering the New Features of HTML5</h2>
+                <div class="blog-meta">
+                  By Jane Doe | Aug 09, 2025
+                </div>
+                <p>HTML5 introduced powerful new elements like `<article>`, `<section>`, and `<nav>`. Let's dive into how to use them to create more semantic and accessible web pages. </p>
+                  <a href="#" class="read-more">Read More</a>
+              </div>
+            </article>
+
+
+
+            <article class="blog-card">
+              <img src="../images/naruto.jpg" alt="Blog Image" class="rounded-md"/>
+              <div class="blog-card-content">
+                <h2>Advanced CSS3: Flexbox vs. Grid</h2>
+                <div class="blog-meta">
+                  By John Smith | Aug 05, 2025
+                </div>
+                <p>Struggling with layouts? This guide breaks down the differences between CSS Flexbox and Grid, helping you decide which one is right for your next project.
+                  Struggling with layouts? This guide breaks down the differences between CSS Flexbox and Grid, helping you decide which one is right for your next project. 
+                Struggling with layouts? This guide breaks down the differences between CSS Flexbox and Grid, helping you decide which one is right for your next project. 
+              Struggling with layouts? This guide breaks down the differences between CSS Flexbox and Grid, helping you decide which one is right for your next project.   </p>
+                  <a href="#" class="read-more">Read More</a>
+              </div>
+            </article>
+
+
+
+
+            <article class="blog-card">
+              <img src="../images/naruto.jpg" alt="Blog Image" />
+              <div class="blog-card-content">
+                <h2>A Beginner's Guide to JavaScript Events</h2>
+                <div class="blog-meta">
+                  By Emily White | Jul 28, 2025
+                </div>
+                <p>Learn how to make your web pages interactive with JavaScript event listeners. We'll cover clicks, keyboard events, and more with easy-to-follow examples. </p>
+                  <a href="#" class="read-more">Read More</a>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+
+
+    <!-- footer -->
+    <footer class="main-footer">
+      <div class="container">
+        <h3>Subscribe to Our Newsletter</h3>
+        <p>Get the latest tech tips and tutorials delivered to your inbox.</p>
+        <form class="subscribe">
+          
+          <input type="text" placeholder="Enter ur email" />
+          <button type="submit">Subscribe</button>
+        </form>
+
+        <div class="copyright">
+          2025 TechInsights All right reserved
+        </div>
+      </div>
+    </footer>
+
+
+
+
+
+    <!-- script -->
+     <script>
+
+      //document.addEvenlistner("click") means it will work wherever u click
+      document.addEventListener("DOMContentLoaded" , ()=>
+    {
+          const dropdownToggle = document.getElementById("dropdown-toggle");
+          const dropdownContent = document.getElementById("dropdown-content");
+
+          dropdownToggle.addEventListener("click" ,(event)=>
+        {
+            event.preventDefault();
+            event.stopPropagation(); //optional
+
+
+            dropdownContent.classList.toggle("show");
+
+        } );
+    });
+     </script>
+  </body>
+</html>

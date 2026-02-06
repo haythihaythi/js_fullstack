@@ -1,0 +1,20 @@
+{
+  "name": "js_fullstack",
+  "version": "1.0.0",
+  "description": "",
+  "main": "testing1.js",
+  "dependencies": {
+    "corepack": "^0.34.2",
+    "npm": "^11.6.2"
+  },
+  "devDependencies": {
+    "furniture": "^0.1.6"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}

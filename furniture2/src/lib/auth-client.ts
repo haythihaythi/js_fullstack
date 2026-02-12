@@ -5,5 +5,8 @@ export const { signIn, signUp, signOut, useSession, emailOtp } =
   createAuthClient({
     /** The base URL of the server (optional if you're using the same domain) */
     baseURL: "http://localhost:8080",
+    fetchOptions: {
+      credentials: "include",
+    },
     plugins: [emailOTPClient()],
   });

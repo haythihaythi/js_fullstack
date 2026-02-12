@@ -1,9 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import * as z from "zod";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
-import { cn } from "@/lib/utils";
+import { cn, wait } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
   Field,
@@ -32,7 +32,7 @@ export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"form">) {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -44,8 +44,22 @@ export function LoginForm({
     },
   });
 
-  function onSubmit(data: z.infer<typeof formSchema>) {
-    console.log(data);
+  async function onSubmit(data: z.infer<typeof formSchema>) {
+    // console.log(data);
+    setError(null);
+    setIsLoading(true);
+    try {
+      await signIn.email({ email: data.email, password: data.password });
+      // wait for 2 mins
+      await wait(2000);
+      navigate("/");
+    } catch (error: unknown) {
+      setError(
+        error instanceof Error ? error.message : "Invalid verification code",
+      );
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   async function handleGoogleSignIn() {

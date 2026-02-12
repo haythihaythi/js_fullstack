@@ -1,7 +1,5 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
-import { Link } from "react-router";
+import React, { useEffect } from "react";
+import { Link, useNavigate, useSearchParams } from "react-router";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
 
 import { Button } from "@/components/ui/button";
@@ -23,21 +21,38 @@ import {
   InputOTPGroup,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
-
-const formSchema = z.object({
-  pin: z.string().min(6, "OTP must be 6 digits long."),
-});
+import { emailOtp } from "@/lib/auth-client";
 
 export function OTPForm({ ...props }: React.ComponentProps<typeof Card>) {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      pin: "",
-    },
-  });
+  const searchParams = useSearchParams();
+  const navigate = useNavigate();
+  const [value, setValue] = React.useState("");
+  const [error, setError] = React.useState<string | null>(null);
+  const [pending, setPending] = React.useState(false);
+  const email = searchParams[0].get("email") || "";
 
-  function onSubmit(data: z.infer<typeof formSchema>) {
-    console.log(data);
+  useEffect(() => {
+    if (!email) {
+      navigate("/register");
+    }
+  }, [email, navigate]);
+
+  async function onSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    // console.log(value);
+    setError(null);
+    setPending(true);
+
+    try {
+      await emailOtp.verifyEmail({ email, otp: value });
+      navigate("/login");
+    } catch (error: unknown) {
+      setError(
+        error instanceof Error ? error.message : "Invalid verification code",
+      );
+    } finally {
+      setPending(false);
+    }
   }
 
   return (
@@ -47,7 +62,7 @@ export function OTPForm({ ...props }: React.ComponentProps<typeof Card>) {
         <CardDescription>We sent a 6-digit code to your phone.</CardDescription>
       </CardHeader>
       <CardContent>
-        <form id="login-form" onSubmit={form.handleSubmit(onSubmit)}>
+        <form id="otp-form" onSubmit={onSubmit}>
           <FieldGroup>
             <Field>
               <FieldLabel htmlFor="otp" className="sr-only">
@@ -58,6 +73,8 @@ export function OTPForm({ ...props }: React.ComponentProps<typeof Card>) {
                 id="otp"
                 pattern={REGEXP_ONLY_DIGITS}
                 required
+                value={value}
+                onChange={(value) => setValue(value)}
               >
                 <InputOTPGroup className="gap-2.5 *:data-[slot=input-otp-slot]:rounded-md *:data-[slot=input-otp-slot]:border">
                   <InputOTPSlot index={0} />
@@ -72,11 +89,12 @@ export function OTPForm({ ...props }: React.ComponentProps<typeof Card>) {
                 Enter the 6-digit code sent to your phone.
               </FieldDescription>
             </Field>
-            <Button type="submit">
-              <Link to="/register/confirm-password">Verify</Link>
+            <Button type="submit" form="otp-form" disabled={pending}>
+              {pending ? "Verifying..." : "Verify"}
             </Button>
+            {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
             <FieldDescription className="text-center">
-              Didn&apos;t receive the code? <a href="#">Resend</a>
+              Didn&apos;t receive the code? <Link to="#">Resend</Link>
             </FieldDescription>
           </FieldGroup>
         </form>

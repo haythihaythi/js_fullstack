@@ -8,13 +8,10 @@ import react from '@vitejs/plugin-react';
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
-    react({
-      babel: {
-        plugins: [["babel-plugin-react-compiler"]],
-      },
-    }),
+    react({ babel: { plugins: [["babel-plugin-react-compiler"]] } }),
     tailwindcss(),
   ],
+  base: process.env.VITE_BASE_PATH || "/js_fullstack",
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
